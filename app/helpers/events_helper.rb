@@ -35,7 +35,9 @@ module EventsHelper
   end
 
   def timeline_row(event)
-    str = event.hosts.join(',') + ':' + event.message
+    str = event.hosts.join(',')
+    str << ':' if str.present?
+    str << event.message
 
     raw '[new Date(%d, %d, %d, %d, %d, %d), null, "%s"]' % [
       event.clock.year,
