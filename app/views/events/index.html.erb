@@ -1,2 +1,9 @@
 <h1>Events#index</h1>
 <p>Find me in app/views/events/index.html.erb</p>
+
+<% Event.get.each do |event| %>
+  eventid: <%= event.eventid %><br/>
+  triggerid: <%= event.triggerid %><br/>
+  subject: <%= event.subject %><br/>
+  url: <%= event.url %><br/><br/>
+<% end %>
