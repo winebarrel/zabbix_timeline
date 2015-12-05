@@ -9,30 +9,34 @@ class Event
     limit: 3000
   }
 
- attr_accessor :eventid
- attr_accessor :triggerid
- attr_accessor :subject
- attr_accessor :url
+  EVENT_URL_TEMPLATE = "#{Rails.application.config.zabbix.config[:url]}/tr_events.php?triggerid=%d&eventid=%d"
+
+  attr_accessor :eventid
+  attr_accessor :triggerid
+  attr_accessor :clock
+  attr_accessor :subject
+  attr_accessor :url
 
   class << self
     def get(options = {})
-      client = Rails.application.config.zabbix.client
-      config = Rails.application.config.zabbix.config
       options = options.reverse_merge(DEFAULT_OPTIONS)
 
+      client = Rails.application.config.zabbix.client
       events = client.event.get(options)
 
       events.map do |event|
-        eventid = event['eventid'].to_i
-        triggerid = event['objectid'].to_i
+        attrs = {}
 
-        subject = event['alerts'].map {|i|
+        attrs[:eventid] = event['eventid'].to_i
+        attrs[:triggerid] = event['objectid'].to_i
+        attrs[:clock] = Time.at(event['clock'].to_i)
+        attrs[:url] = EVENT_URL_TEMPLATE % [attrs[:triggerid], attrs[:eventid]]
+
+        attrs[:subject] = event['alerts'].map {|i|
           i['subject']
         }.reject(&:empty?).first
 
-        url = "#{config[:url]}/tr_events.php?triggerid=#{triggerid}&eventid=#{eventid}"
-
-        self.new(eventid: eventid, triggerid: triggerid, subject: subject, url: url)
+        self.new(attrs)
       end
     end
   end # of class methods
