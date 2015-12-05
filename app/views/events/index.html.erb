@@ -18,14 +18,9 @@
       data.addColumn('string', 'content');
 
       data.addRows([
-        [new Date(2010,7,23),        null,               'Conversation<br><img src="http://almende.github.io/chap-links-library/js/timeline/examples/img/comments-icon.png" style="width:32px; height:32px;">'],
-        [new Date(2010,7,23,23,0,0), null,               'Mail from boss<br><img src="http://almende.github.io/chap-links-library/js/timeline/examples/img/mail-icon.png" style="width:32px; height:32px;">'],
-        [new Date(2010,7,24,16,0,0), null,               'Report'],
-        [new Date(2010,7,26),        new Date(2010,8,2), 'Traject A'],
-        [new Date(2010,7,28),        null,               'Memo<br><img src="http://almende.github.io/chap-links-library/js/timeline/examples/img/notes-edit-icon.png" style="width:48px; height:48px;">'],
-        [new Date(2010,7,29),        null,               'Phone call<br><img src="http://almende.github.io/chap-links-library/js/timeline/examples/img/Hardware-Mobile-Phone-icon.png" style="width:32px; height:32px;">'],
-        [new Date(2010,7,31),        new Date(2010,8,3), 'Traject B'],
-        [new Date(2010,8,4,12,0,0),  null,               'Report<br><img src="http://almende.github.io/chap-links-library/js/timeline/examples/img/attachment-icon.png" style="width:32px; height:32px;">']
+        <% Event.get.each do |event| %>
+          [new Date(<%= event.clock.year %>, <%= event.clock.mon - 1 %>, <%= event.clock.day %>, <%= event.clock.hour %>, <%= event.clock.min %>, <%= event.clock.sec %>), null, "<%== j event.subject %>"],
+        <% end %>
       ]);
 
       // specify options
@@ -48,10 +43,3 @@
 <p>Find me in app/views/events/index.html.erb</p>
 
 <div id="mytimeline"></div>
-
-<% Event.get.each do |event| %>
-  eventid: <%= event.eventid %><br/>
-  triggerid: <%= event.triggerid %><br/>
-  subject: <%= event.subject %><br/>
-  url: <%= event.url %><br/><br/>
-<% end %>
