@@ -5,16 +5,20 @@ class Event
     filter: {object: 0, value: 1},
     sortfield: :clock,
     sortorder: :DESC,
+    selectHosts: [:host],
     select_alerts: [:subject],
+    selectRelatedObject: [:description],
     limit: 3000
   }
 
   EVENT_URL_TEMPLATE = "#{Rails.application.config.zabbix.config[:url]}/tr_events.php?triggerid=%d&eventid=%d"
+  DEFAULT_MESSAGE = '🔥'
 
   attr_accessor :eventid
   attr_accessor :triggerid
   attr_accessor :clock
-  attr_accessor :subject
+  attr_accessor :hosts
+  attr_accessor :message
   attr_accessor :url
 
   class << self
@@ -32,9 +36,18 @@ class Event
         attrs[:clock] = Time.at(event['clock'].to_i)
         attrs[:url] = EVENT_URL_TEMPLATE % [attrs[:triggerid], attrs[:eventid]]
 
-        attrs[:subject] = event['alerts'].map {|i|
+        attrs[:hosts] = event['hosts'].map {|i|
+          i['host']
+        }.reject(&:empty?)
+
+        subject = event['alerts'].map {|i|
           i['subject']
         }.reject(&:empty?).first
+
+        related_object = event['relatedObject']
+        description = related_object.is_a?(Hash) ? related_object['description'] : nil
+
+        attrs[:message] = subject || description || DEFAULT_MESSAGE
 
         self.new(attrs)
       end
