@@ -28,3 +28,8 @@
     <div id="timeline"></div>
   </div>
 </div>
+<div class="row">
+  <div class="col-lg-12">
+    <%= render partial: 'paginator', locals: {from: @from, till: @till} %>
+  </div>
+</div>
