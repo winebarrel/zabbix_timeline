@@ -28,6 +28,7 @@ class Event
   attr_accessor :triggerid
   attr_accessor :clock
   attr_accessor :hosts
+  attr_accessor :priority
   attr_accessor :message
   attr_accessor :url
 
@@ -82,7 +83,16 @@ class Event
         }.reject(&:empty?).first
 
         related_object = event['relatedObject']
-        description = related_object.is_a?(Hash) ? related_object['description'] : nil
+
+        if related_object.is_a?(Hash)
+          description = related_object['description']
+          attrs[:priority] = related_object['priority'].to_i
+        else
+          description = nil
+          attrs[:priority] = -1
+        end
+
+        next if attrs[:priority] < priority
 
         attrs[:message] = description || subject || DEFAULT_MESSAGE
 
