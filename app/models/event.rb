@@ -40,6 +40,10 @@ class Event
 
       host = options.delete(:host)
       host = Regexp.new(host) if host
+
+      exclude_host = options.delete(:exclude_host)
+      exclude_host = Regexp.new(exclude_host) if exclude_host
+
       priority = options.delete(:priority) || Rails.application.config.zabbix.config[:priority] || DEFAULT_PRIORITY
       priority = priority.to_i
 
@@ -64,6 +68,11 @@ class Event
 
         if host and not hosts.any? {|i| i =~ host }
           next
+        end
+
+        if exclude_host
+          hosts = hosts.reject {|i| i =~ exclude_host }
+          next if hosts.empty?
         end
 
         attrs[:hosts] = hosts

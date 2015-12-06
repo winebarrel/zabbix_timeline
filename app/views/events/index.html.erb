@@ -14,7 +14,7 @@
 <% end %>
 
 <% content_for :navbar_right do %>
-  <%= render partial: 'form', locals: {host_filter: @host_filter, priority: @priority, from: @from, till: @till} %>
+  <%= render partial: 'form', locals: {host_filter: @host_filter, exclude_host_filter: @exclude_host_filter, priority: @priority, from: @from, till: @till} %>
 <% end %>
 
 <div class="row">
@@ -24,6 +24,6 @@
 </div>
 <div class="row">
   <div class="col-lg-12">
-    <%= render partial: 'paginator', locals: {host_filter: @host_filter, priority: @priority, from: @from, till: @till} %>
+    <%= render partial: 'paginator', locals: {host_filter: @host_filter, exclude_host_filter: @exclude_host_filter, priority: @priority, from: @from, till: @till} %>
   </div>
 </div>
