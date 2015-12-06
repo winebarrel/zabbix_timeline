@@ -13,12 +13,14 @@ class EventsController < ApplicationController
   private
 
   def parse_time(time, defval)
-    return defval unless time
-
-    if time =~ /\A\d+\z/
-      Time.at(time.to_i)
+    if time.present?
+      if time =~ /\A\d+\z/
+        Time.at(time.to_i)
+      else
+        Time.parse(time)
+      end
     else
-      Time.parse(time)
+      defval
     end
   end
 end
