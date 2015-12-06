@@ -6,7 +6,7 @@ class EventsController < ApplicationController
     now = Time.now
     @host_filter = params[:host_filter] || config[:host_filter]
     @exclude_host_filter = params[:exclude_host_filter] || config[:exclude_host_filter]
-    @priority = params[:priority]
+    @priority = params[:priority] || config[:priority]
     @from = parse_time(params[:from], (now - 1.day).beginning_of_day)
     @till = parse_time(params[:till], (now + 1.day).end_of_day)
 
