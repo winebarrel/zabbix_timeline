@@ -3,7 +3,13 @@ module EventsHelper
     rows = events.map {|event| timeline_row(event) }.join(',')
 
     options = options.map {|k, v|
-      '"%s":"%s"' % [j(k.to_s), j(v.to_s)]
+      if v.is_a?(Time)
+        v = time_to_javascript_date(v)
+      else
+        v = '"' + j(v.to_s) + '"'
+      end
+
+      '"%s":%s' % [j(k.to_s), v]
     }.join(',')
 
     raw javascript_tag <<-EOS
@@ -39,14 +45,13 @@ module EventsHelper
     str << ':' if str.present?
     str << event.message
 
-    raw '[new Date(%d, %d, %d, %d, %d, %d), null, "%s"]' % [
-      event.clock.year,
-      event.clock.mon - 1,
-      event.clock.day,
-      event.clock.hour,
-      event.clock.min,
-      event.clock.sec,
+    raw '[%s, null, "%s"]' % [
+      time_to_javascript_date(event.clock),
       j(link_to str, event.url, target: '_blank'),
     ]
+  end
+
+  def time_to_javascript_date(time)
+    "new Date(#{time.to_i * 1000})"
   end
 end

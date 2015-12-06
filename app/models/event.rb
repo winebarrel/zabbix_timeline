@@ -8,7 +8,7 @@ class Event
     selectHosts: [:host],
     select_alerts: [:subject],
     selectRelatedObject: [:description],
-    limit: 3000
+    limit: 10000
   }
 
   EVENT_URL_TEMPLATE = "#{Rails.application.config.zabbix.config[:url]}/tr_events.php?triggerid=%d&eventid=%d"
@@ -47,7 +47,7 @@ class Event
         related_object = event['relatedObject']
         description = related_object.is_a?(Hash) ? related_object['description'] : nil
 
-        attrs[:message] = subject || description || DEFAULT_MESSAGE
+        attrs[:message] = description || subject || DEFAULT_MESSAGE
 
         self.new(attrs)
       end
