@@ -7,11 +7,12 @@ class Event
     sortorder: :DESC,
     selectHosts: [:host],
     select_alerts: [:subject],
-    selectRelatedObject: [:description],
+    selectRelatedObject: [:priority, :description],
     limit: 10000
   }
 
   EVENT_URL_TEMPLATE = "#{Rails.application.config.zabbix.config[:url]}/tr_events.php?triggerid=%d&eventid=%d"
+  DEFAULT_PRIORITY = 3
   DEFAULT_MESSAGE = '🔥'
 
   attr_accessor :eventid
@@ -28,7 +29,18 @@ class Event
       client = Rails.application.config.zabbix.client
       events = client.event.get(options)
 
-      events.map do |event|
+      host = options.delete(:host)
+      host = Regexp.new(host) if host
+      priority = options.delete(:priority) || Rails.application.config.zabbix.config[:priority] || DEFAULT_PRIORITY
+
+      events = events.select do |event|
+        related_object = event['relatedObject']
+        related_object.is_a?(Hash) and related_object['priority'].to_i >= priority
+      end
+
+      objs = []
+
+      events.each do |event|
         attrs = {}
 
         attrs[:eventid] = event['eventid'].to_i
@@ -36,9 +48,15 @@ class Event
         attrs[:clock] = Time.at(event['clock'].to_i)
         attrs[:url] = EVENT_URL_TEMPLATE % [attrs[:triggerid], attrs[:eventid]]
 
-        attrs[:hosts] = event['hosts'].map {|i|
+        hosts = event['hosts'].map {|i|
           i['host']
         }.reject(&:empty?)
+
+        if host and not hosts.any? {|i| i =~ host }
+          next
+        end
+
+        attrs[:hosts] = hosts
 
         subject = event['alerts'].map {|i|
           i['subject']
@@ -49,8 +67,10 @@ class Event
 
         attrs[:message] = description || subject || DEFAULT_MESSAGE
 
-        self.new(attrs)
+        objs << self.new(attrs)
       end
+
+      objs
     end
   end # of class methods
 end

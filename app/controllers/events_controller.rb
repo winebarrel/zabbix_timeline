@@ -6,7 +6,9 @@ class EventsController < ApplicationController
 
     @events = Event.get(
       time_from: @from.to_i,
-      time_till: @till.to_i
+      time_till: @till.to_i,
+      host: params[:host],
+      priority: params[:priority].to_i
     )
   end
 
