@@ -44,7 +44,7 @@ class Event
       exclude_host = options.delete(:exclude_host)
       exclude_host = exclude_host.present? ? Regexp.new(exclude_host) : nil
 
-      priority = options.delete(:priority) || Rails.application.config.zabbix.config[:priority] || DEFAULT_PRIORITY
+      priority = options.delete(:priority) || DEFAULT_PRIORITY
       priority = priority.to_i
 
       events = events.select do |event|
