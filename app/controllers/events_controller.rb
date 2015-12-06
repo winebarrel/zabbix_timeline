@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  EVENT_CHUNK_LENGTH = Rails.application.config.zabbix.config[:event_chunk_length] || 300
+
   def index
     config = Rails.application.config.zabbix.config
     now = Time.now
@@ -14,7 +16,21 @@ class EventsController < ApplicationController
       priority: @priority,
       time_from: @from.to_i,
       time_till: @till.to_i
-    )
+    ).chunk {|event|
+      event.clock.to_i - event.clock.to_i % EVENT_CHUNK_LENGTH
+    }.flat_map {|_, chunk_by_time|
+      chunk_by_time.chunk {|event|
+        event.triggerid
+      }.flat_map {|_, chunk_by_trigger|
+        event = chunk_by_trigger.first
+
+        if chunk_by_trigger.count > 1
+          event.message = '(%d) %s' % [chunk_by_trigger.count, event.message]
+        end
+
+        event
+      }
+    }
   end
 
   private

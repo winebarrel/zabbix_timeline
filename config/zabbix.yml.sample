@@ -5,3 +5,4 @@ url: http://localhost/zabbix
 #priority: 3
 #host_filter: any-host-regexp
 #exclude_host_filter: any-host-regexp
+#event_chunk_length: 300
