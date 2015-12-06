@@ -1,0 +1,16 @@
+<%
+  from = from.to_i
+  till = till.to_i
+  delta = till - from
+%>
+<ul class="pager" data-no-turbolink>
+  <li class="previous">
+    <%= link_to raw('&larr; Older'), events_path(from: from - delta, till: till - delta) %>
+  </li>
+  <li>
+    <%= link_to raw('Today'), events_path %>
+  </li>
+  <li class="next">
+    <%= link_to raw('Newer &rarr;'), events_path(from: from + delta, till: till + delta) %>
+  </li>
+</ul>
