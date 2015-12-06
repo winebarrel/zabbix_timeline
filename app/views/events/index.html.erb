@@ -2,17 +2,23 @@
   <%= javascript_include_tag '//www.google.com/jsapi' %>
   <%= javascript_include_tag :timeline %>
   <%= stylesheet_link_tag :timeline %>
-  <%= timeline(@events, 'timeline',
-        width: '100%',
-        height: 'auto',
-        min: @from,
-        max: @till,
-        style: :dot,
-        zoomMin: 1000 * 60 * 60,
-        showNavigation: true,
-        axisOnTop: true,
-        navigationOnTop: true,
-      ) %>
+
+  <%= render partial: 'timeline_javascript', locals: {
+        events: @events,
+        container_id: 'timeline',
+        options: {
+          width: '100%',
+          height: 'auto',
+          min: @from,
+          max: @till,
+          style: :dot,
+          zoomMin: 1000 * 60 * 60,
+          showNavigation: true,
+          axisOnTop: true,
+          navigationOnTop: true,
+        }
+      }
+  %>
 <% end %>
 
 <% content_for :navbar_right do %>
