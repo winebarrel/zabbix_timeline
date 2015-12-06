@@ -15,6 +15,15 @@ class Event
   DEFAULT_PRIORITY = 3
   DEFAULT_MESSAGE = '🔥'
 
+  PRIORITIES = {
+    not_classified: 0,
+    information: 1,
+    warning: 2,
+    average: 3,
+    high: 4,
+    disaste: 5,
+  }
+
   attr_accessor :eventid
   attr_accessor :triggerid
   attr_accessor :clock

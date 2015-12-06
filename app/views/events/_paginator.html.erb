@@ -5,12 +5,12 @@
 %>
 <ul class="pager" data-no-turbolink>
   <li class="previous">
-    <%= link_to raw('&larr; Older'), events_path(host_filter: host_filter, from: from - delta, till: till - delta) %>
+    <%= link_to raw('&larr; Older'), events_path(host_filter: host_filter, priority: priority, from: from - delta, till: till - delta) %>
   </li>
   <li>
-    <%= link_to raw('Today'), events_path(host_filter: host_filter) %>
+    <%= link_to raw('Today'), events_path(host_filter: host_filter, priority: priority) %>
   </li>
   <li class="next">
-    <%= link_to raw('Newer &rarr;'), events_path(host_filter: host_filter, from: from + delta, till: till + delta) %>
+    <%= link_to raw('Newer &rarr;'), events_path(host_filter: host_filter, priority: priority, from: from + delta, till: till + delta) %>
   </li>
 </ul>
