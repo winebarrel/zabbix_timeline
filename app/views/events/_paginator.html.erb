@@ -3,7 +3,7 @@
   till = till.to_i
   delta = till - from
 %>
-<ul class="pager" data-no-turbolink>
+<ul class="pager"  style="margin: 10px;" data-no-turbolink>
   <li class="previous">
     <%= link_to raw('&larr; Older'), events_path(host_filter: host_filter, exclude_host_filter: exclude_host_filter, priority: priority, from: from - delta, till: till - delta) %>
   </li>

@@ -39,10 +39,10 @@ class Event
       events = client.event.get(options)
 
       host = options.delete(:host)
-      host = Regexp.new(host) if host
+      host = host.present? ? Regexp.new(host) : nil
 
       exclude_host = options.delete(:exclude_host)
-      exclude_host = Regexp.new(exclude_host) if exclude_host
+      exclude_host = exclude_host.present? ? Regexp.new(exclude_host) : nil
 
       priority = options.delete(:priority) || Rails.application.config.zabbix.config[:priority] || DEFAULT_PRIORITY
       priority = priority.to_i
