@@ -11,10 +11,26 @@
         class: 'form-control'
   %>
   <div class="form-group">
-    <%= text_field_tag 'from', from.strftime('%Y-%m-%d %H:%M:%S'),  class: 'form-control', placeholder: 'From' %>
+    <div class='input-group date' id='from-datetimepicker'>
+      <%= text_field_tag 'from', from.strftime('%Y-%m-%d %H:%M:%S'),  class: 'form-control', placeholder: 'From' %>
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-calendar"></span>
+      </span>
+    </div>
   </div>
   <div class="form-group">
-    <%= text_field_tag 'till', till.strftime('%Y-%m-%d %H:%M:%S'),  class: 'form-control', placeholder: 'Till' %>
+    <div class='input-group date' id='till-datetimepicker'>
+      <%= text_field_tag 'till', till.strftime('%Y-%m-%d %H:%M:%S'),  class: 'form-control', placeholder: 'Till' %>
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-calendar"></span>
+      </span>
+      </div>
   </div>
   <%= button_tag 'Go', class: 'btn btn-default' %>
+<% end %>
+<%= javascript_tag do %>
+  $(function () {
+    $('#from-datetimepicker').datetimepicker({format: 'YYYY/MM/DD'});
+    $('#till-datetimepicker').datetimepicker({format: 'YYYY/MM/DD'});
+  });
 <% end %>
