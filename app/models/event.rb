@@ -32,6 +32,7 @@ class Event
       host = options.delete(:host)
       host = Regexp.new(host) if host
       priority = options.delete(:priority) || Rails.application.config.zabbix.config[:priority] || DEFAULT_PRIORITY
+      priority = priority.to_i
 
       events = events.select do |event|
         related_object = event['relatedObject']

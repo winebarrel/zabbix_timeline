@@ -1,14 +1,15 @@
 class EventsController < ApplicationController
   def index
     now = Time.now
+    @host_filter = params[:host_filter]
     @from = parse_time(params[:from], (now - 1.day).beginning_of_day)
     @till = parse_time(params[:till], (now + 1.day).end_of_day)
 
     @events = Event.get(
       time_from: @from.to_i,
       time_till: @till.to_i,
-      host: params[:host],
-      priority: params[:priority].to_i
+      host: @host_filter,
+      priority: params[:priority]
     )
   end
 
