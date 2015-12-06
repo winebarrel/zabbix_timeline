@@ -1,0 +1,16 @@
+<div class="form-inline">
+  <div class="form-group">
+    <label for="search">Search</label>
+    <input class="form-control" id="search" placeholder="Keyword" value="">
+  </div>
+</div>
+<%= javascript_tag do %>
+  $('#search').keyup(function() {
+    if (!$(this).val()) {
+      $('.timeline-content .timeline-event-dot-container a').css('color', '');
+    } else {
+      $('.timeline-content .timeline-event-dot-container a').css('color','');
+      $('.timeline-content .timeline-event-dot-container:contains(' + this.value + ') a').css('color','red');
+    }
+  });
+<% end %>
