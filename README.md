@@ -2,7 +2,7 @@
 
 Zabbix Event Timeline Viewer.
 
-This application uses [Timeline.js[(http://almende.github.io/chap-links-library/timeline.html).
+This application uses [Timeline.js](http://almende.github.io/chap-links-library/timeline.html).
 
 ## Installation
 
