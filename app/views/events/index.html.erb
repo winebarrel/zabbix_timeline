@@ -33,7 +33,7 @@
 
 <div class="row">
   <div class="col-lg-12">
-    <p><%= render partial: 'range_form' %></p>
+    <p><%= render partial: 'range_form', locals: {from: @from, till: @till}  %></p>
   </div>
 </div>
 

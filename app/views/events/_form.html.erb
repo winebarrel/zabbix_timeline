@@ -11,10 +11,10 @@
         class: 'form-control'
   %>
   <div class="form-group">
-    <%= text_field_tag 'from', from,  class: 'form-control', placeholder: 'From' %>
+    <%= text_field_tag 'from', from.strftime('%Y-%m-%d %H:%M:%S'),  class: 'form-control', placeholder: 'From' %>
   </div>
   <div class="form-group">
-    <%= text_field_tag 'till', till,  class: 'form-control', placeholder: 'Till' %>
+    <%= text_field_tag 'till', till.strftime('%Y-%m-%d %H:%M:%S'),  class: 'form-control', placeholder: 'Till' %>
   </div>
   <%= button_tag 'Go', class: 'btn btn-default' %>
 <% end %>
