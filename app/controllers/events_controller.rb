@@ -10,13 +10,21 @@ class EventsController < ApplicationController
     @from = parse_time(params[:from], (now - 1.day).beginning_of_day)
     @till = parse_time(params[:till], (now + 1.day).end_of_day)
 
+    if params.has_key?(:has_alert)
+      has_alert = params[:has_alert] !~ /\A(0|false|no|off)\z/i
+    elsif config.has_key?(:has_alert)
+      has_alert = config[:has_alert]
+    else
+      has_alert = true
+    end
+
     events = Event.get(
       host: @host_filter,
       exclude_host: @exclude_host_filter,
       priority: @priority,
       time_from: @from.to_i,
       time_till: @till.to_i,
-      has_alert: config[:has_alert]
+      has_alert: has_alert
     )
 
     @events = events.chunk {|event|
