@@ -40,8 +40,8 @@ class Event
       client = Rails.application.config.zabbix.client
       events = client.event.get(options)
 
-      host = options.delete(:host)
-      host = host.present? ? Regexp.new(host) : nil
+      include_host = options.delete(:host)
+      include_host = include_host.present? ? Regexp.new(include_host) : nil
 
       exclude_host = options.delete(:exclude_host)
       exclude_host = exclude_host.present? ? Regexp.new(exclude_host) : nil
@@ -68,7 +68,7 @@ class Event
           i['host']
         }.reject(&:empty?)
 
-        if host and not hosts.any? {|i| i =~ host }
+        if include_host and not hosts.any? {|i| i =~ include_host }
           next
         end
 
