@@ -79,6 +79,12 @@ class Event
 
         attrs[:hosts] = hosts
 
+        alerts = event['alerts']
+
+        if options[:has_alerts] and event['alerts'].blank?
+          next
+        end
+
         subject = event['alerts'].map {|i|
           i['subject']
         }.reject(&:empty?).first

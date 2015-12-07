@@ -15,7 +15,8 @@ class EventsController < ApplicationController
       exclude_host: @exclude_host_filter,
       priority: @priority,
       time_from: @from.to_i,
-      time_till: @till.to_i
+      time_till: @till.to_i,
+      has_alerts: config[:has_alerts]
     )
 
     @events = events.chunk {|event|
