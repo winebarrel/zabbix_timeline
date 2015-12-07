@@ -12,10 +12,8 @@ class EventsController < ApplicationController
 
     if params.has_key?(:has_alert)
       has_alert = params[:has_alert] !~ /\A(0|false|no|off)\z/i
-    elsif config.has_key?(:has_alert)
-      has_alert = config[:has_alert]
     else
-      has_alert = true
+      has_alert = config[:has_alert]
     end
 
     events = Event.get(
