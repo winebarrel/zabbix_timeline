@@ -17,4 +17,4 @@ Then go to `http://localhost:3000`.
 
 ## Screenshot
 
-[![https://gyazo.com/300cb21eb9cbc0ce2ac371794da30469](https://i.gyazo.com/300cb21eb9cbc0ce2ac371794da30469.png)](https://gyazo.com/300cb21eb9cbc0ce2ac371794da30469)
+[![https://gyazo.com/1e7e20debaf57e61ab1d89e98ac494d8](https://i.gyazo.com/1e7e20debaf57e61ab1d89e98ac494d8.png)](https://gyazo.com/1e7e20debaf57e61ab1d89e98ac494d8)
