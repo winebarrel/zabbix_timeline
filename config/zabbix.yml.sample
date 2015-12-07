@@ -6,4 +6,4 @@ url: http://localhost/zabbix
 #host_filter: any-host-regexp
 #exclude_host_filter: any-host-regexp
 #event_chunk_length: 300
-#has_alerts: true
+#has_alert: true

@@ -16,7 +16,7 @@ class EventsController < ApplicationController
       priority: @priority,
       time_from: @from.to_i,
       time_till: @till.to_i,
-      has_alerts: config[:has_alerts]
+      has_alert: config[:has_alert]
     )
 
     @events = events.chunk {|event|
