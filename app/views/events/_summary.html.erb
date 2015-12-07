@@ -1,3 +1,13 @@
+<%= javascript_tag do %>
+  function onmouseoverHighlight(keyword) {
+    $('.timeline-content .timeline-event-dot-container a').css('color','');
+    $('.timeline-content .timeline-event-dot-container:contains(' + keyword + ') a').css('color','red');
+  }
+
+  function onmouseoutHighlight() {
+    $('.timeline-content .timeline-event-dot-container a').css('color', '');
+  }
+<% end %>
 <% summary.sort_by {|priority, _| -priority }.each do |priority, events_by_trigger| %>
   <h5><%= colored_priority(priority) %></h5>
   <ul class="list-group" data-no-turbolink>
@@ -5,7 +15,7 @@
       <% event = es.first %>
       <% host_filter = event.hosts.join('|') %>
       <% host_filter = "(#{host_filter})" if host_filter =~ /\|/ %>
-      <%= link_to events_path(host_filter: host_filter, exclude_host_filter: exclude_host_filter, priority: priority, from: from, till: till), class: 'list-group-item', style: 'white-space: nowrap; overflow: hidden; font-size: xx-small;' do %>
+      <%= link_to events_path(host_filter: host_filter, exclude_host_filter: exclude_host_filter, priority: priority, from: from, till: till), onmouseover: %!onmouseoverHighlight("#{j event.hosts.join(',') + ':' + event.message.split(/[()]/).first}")!, onmouseout: %!onmouseoutHighlight()!, class: 'list-group-item', style: 'white-space: nowrap; overflow: hidden; font-size: xx-small;' do %>
         <span class="badge pull-left" style="font-size: xx-small;"><%= es.length %></span>
         &nbsp;<%= event.hosts.join(',') %>:<%= event.message %>
       <% end %>
