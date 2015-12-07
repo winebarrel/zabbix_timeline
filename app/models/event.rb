@@ -81,7 +81,7 @@ class Event
 
         alerts = event['alerts']
 
-        if options[:has_alerts] and event['alerts'].blank?
+        if options[:has_alert] and event['alerts'].blank?
           next
         end
 
