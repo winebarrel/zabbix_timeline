@@ -26,22 +26,23 @@
 <% end %>
 
 <div class="row">
-  <div class="col-lg-12">
+  <div class="col-lg-9">
     <%= render partial: 'paginator', locals: {host_filter: @host_filter, exclude_host_filter: @exclude_host_filter, priority: @priority, from: @from, till: @till} %>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-lg-6">
-    <p><%= render partial: 'range_form', locals: {from: @from, till: @till}  %></p>
-  </div>
-  <div class="col-lg-6">
-    <p><%= render partial: 'search' %></p>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-lg-12">
+    <p><%= render partial: 'timeline_form', locals: {from: @from, till: @till}  %></p>
     <div id="timeline"></div>
+  </div>
+  <div class="col-lg-3">
+    <% @summary.sort_by {|priority, _| -priority }.each do |priority, events_by_trigger| %>
+      <h5><%= Event::PRIORITIES.key(priority) %></h5>
+      <ul class="list-group">
+        <% events_by_trigger.sort_by {|_, es| -es.length }.each do |triggerid, es| %>
+          <% event = es.first %>
+          <%= link_to event_history_path(event, @from, @till), class: 'list-group-item', target: '_blank', style: 'white-space: nowrap; overflow: hidden; font-size: small;' do %>
+            <span class="badge pull-left" style="font-size: xx-small;"><%= es.length %></span>
+            &nbsp;<%= event.message %>
+          <% end %>
+        <% end %>
+      </ul>
+    <% end %>
   </div>
 </div>

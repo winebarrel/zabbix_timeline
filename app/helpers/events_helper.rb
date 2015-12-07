@@ -9,13 +9,17 @@ module EventsHelper
     5 => '#FF3838',
   }
 
+  EVENT_HISTORY_URL_TEMPLATE = "#{Rails.application.config.zabbix.config[:url]}/events.php?triggerid=%d&stime=%d&period=%d"
+
   def timeline_row(event)
     link_str = ""
 
+    if event.count
+      link_str << '(%d) ' % event.count
+    end
+
     if event.priority.present?
-      priority = Event::PRIORITIES.key(event.priority)
-      priority_color = PRIORITY_COLORS[event.priority]
-      link_str << %!<span style="color:#{priority_color};">[#{priority}]</span> !
+      link_str << colored_priority(event.priority)
     end
 
     hosts = event.hosts.join(',')
@@ -34,5 +38,19 @@ module EventsHelper
 
   def time_to_javascript_date(time)
     "new Date(#{time.to_i * 1000})"
+  end
+
+  def colored_priority(priority)
+    priority_label = Event::PRIORITIES.key(priority)
+    priority_color = PRIORITY_COLORS[priority]
+    raw %!<span style="color:#{priority_color};">[#{priority_label}]</span> !
+  end
+
+  def event_history_path(event, from, till)
+    EVENT_HISTORY_URL_TEMPLATE % [
+      event.triggerid,
+      from.strftime('%Y%m%d%H%M'),
+      till - from
+    ]
   end
 end

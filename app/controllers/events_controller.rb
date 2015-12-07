@@ -10,13 +10,15 @@ class EventsController < ApplicationController
     @from = parse_time(params[:from], (now - 1.day).beginning_of_day)
     @till = parse_time(params[:till], (now + 1.day).end_of_day)
 
-    @events = Event.get(
+    events = Event.get(
       host: @host_filter,
       exclude_host: @exclude_host_filter,
       priority: @priority,
       time_from: @from.to_i,
       time_till: @till.to_i
-    ).chunk {|event|
+    )
+
+    @events = events.chunk {|event|
       event.clock.to_i - event.clock.to_i % EVENT_CHUNK_LENGTH
     }.flat_map {|_, chunk_by_time|
       chunk_by_time.chunk {|event|
@@ -25,11 +27,21 @@ class EventsController < ApplicationController
         event = chunk_by_trigger.first
 
         if chunk_by_trigger.count > 1
-          event.message = '(%d) %s' % [chunk_by_trigger.count, event.message]
+          event.count = chunk_by_trigger.count
         end
 
         event
       }
+    }
+
+    @summary = Hash.new {|hash, key| hash[key] = {} }
+
+    events.sort_by {|event|
+      [event.priority, event.triggerid]
+    }.chunk {|event|
+      [event.priority, event.triggerid]
+    }.each {|(priority, triggerid), es|
+      @summary[priority][triggerid] = es
     }
   end
 

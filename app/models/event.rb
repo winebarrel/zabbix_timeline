@@ -31,6 +31,7 @@ class Event
   attr_accessor :priority
   attr_accessor :message
   attr_accessor :url
+  attr_accessor :count
 
   class << self
     def get(options = {})
