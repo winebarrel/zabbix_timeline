@@ -45,12 +45,4 @@ module EventsHelper
     priority_color = PRIORITY_COLORS[priority]
     raw %!<span style="color:#{priority_color};">[#{priority_label}]</span> !
   end
-
-  def event_history_path(event, from, till)
-    EVENT_HISTORY_URL_TEMPLATE % [
-      event.triggerid,
-      from.strftime('%Y%m%d%H%M'),
-      till - from
-    ]
-  end
 end

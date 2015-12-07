@@ -1,0 +1,12 @@
+<% summary.sort_by {|priority, _| -priority }.each do |priority, events_by_trigger| %>
+  <h5><%= colored_priority(priority) %></h5>
+  <ul class="list-group">
+    <% events_by_trigger.sort_by {|_, es| -es.length }.each do |triggerid, es| %>
+      <% event = es.first %>
+      <%= link_to event.url, class: 'list-group-item', target: '_blank', style: 'white-space: nowrap; overflow: hidden; font-size: xx-small;' do %>
+        <span class="badge pull-left" style="font-size: xx-small;"><%= es.length %></span>
+        &nbsp;<%= event.hosts.join(',') %>:<%= event.message %>
+      <% end %>
+    <% end %>
+  </ul>
+<% end %>
