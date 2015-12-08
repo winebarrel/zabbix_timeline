@@ -14,11 +14,11 @@
 <div class="form-inline">
   <div class="form-group">
     <label for="range_start">Start</label>
-    <input class="form-control" id="range_start" placeholder="Start" readonly="readonly" value="<%= from.strftime('%Y-%m-%d %H:%M:%S')%>">
+    <input class="form-control" id="range_start" placeholder="Start" readonly="readonly" value="<%= from.strftime('%Y/%m/%d %H:%M:%S')%>">
   </div>
   <div class="form-group">
     <label for="range_end">End</label>
-    <input class="form-control" id="range_end" placeholder="End" readonly="readonly" value="<%= till.strftime('%Y-%m-%d %H:%M:%S') %>">
+    <input class="form-control" id="range_end" placeholder="End" readonly="readonly" value="<%= till.strftime('%Y/%m/%d %H:%M:%S') %>">
   </div>
   <button onclick="setFormFromTill()" class="btn btn-default">Set</button>
   <div class="form-group">
