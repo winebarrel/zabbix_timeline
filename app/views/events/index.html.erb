@@ -5,6 +5,8 @@
 
   <%= render partial: 'timeline_javascript', locals: {
         events: @events,
+        from: @from,
+        till: @till,
         container_id: 'timeline',
         options: {
           width: '100%',

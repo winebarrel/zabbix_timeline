@@ -55,5 +55,7 @@
 
     // Draw our timeline with the created data and options
     timeline.draw(data);
+
+    timeline.setVisibleChartRange(<%= time_to_javascript_date(from) %>, <%= time_to_javascript_date(till) %>);
   }
 <% end %>
