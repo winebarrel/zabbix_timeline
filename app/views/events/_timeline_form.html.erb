@@ -9,6 +9,10 @@
     <% hour_ago = now - 1.hour %>
     <% hour_later = now + 1.hour %>
     window.timeline.setVisibleChartRange(<%= time_to_javascript_date(hour_ago) %>, <%= time_to_javascript_date(hour_later) %>);
+
+    var range = timeline.getVisibleChartRange();
+    document.getElementById('range_start').value = dateFormat(range.start);
+    document.getElementById('range_end').value = dateFormat(range.end);
   }
 <% end %>
 <div class="form-inline">
