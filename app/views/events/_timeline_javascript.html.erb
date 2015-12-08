@@ -57,5 +57,7 @@
     timeline.draw(data);
 
     timeline.setVisibleChartRange(<%= time_to_javascript_date(from) %>, <%= time_to_javascript_date(till) %>);
+
+    window.timeline = timeline;
   }
 <% end %>

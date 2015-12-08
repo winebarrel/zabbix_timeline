@@ -1,8 +1,14 @@
+<% now = Time.now %>
 <%= javascript_tag do %>
   function setFormFromTill() {
     document.getElementById('from').value = document.getElementById('range_start').value
     document.getElementById('till').value   = document.getElementById('range_end').value
     $('#filter_form').submit();
+  }
+  function closeUpNow() {
+    <% hour_ago = now - 1.hour %>
+    <% hour_later = now + 1.hour %>
+    window.timeline.setVisibleChartRange(<%= time_to_javascript_date(hour_ago) %>, <%= time_to_javascript_date(hour_later) %>);
   }
 <% end %>
 <div class="form-inline">
@@ -19,6 +25,11 @@
     <label for="search">Highlight</label>
     <input class="form-control" id="search" placeholder="Keyword" value="">
   </div>
+  <% if from <= now and now <= till %>
+    <button class="btn btn-default" onclick="closeUpNow()">
+      <span class="glyphicon glyphicon-time" aria-hidden="true"></span> Now
+    </button>
+  <% end %>
 </div>
 <%= javascript_tag do %>
   $('#search').keyup(function() {
