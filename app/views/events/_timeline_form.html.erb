@@ -5,12 +5,24 @@
     document.getElementById('till').value   = document.getElementById('range_end').value
     $('#filter_form').submit();
   }
+
   function closeUpNow() {
     <% hour_ago = now - 1.hour %>
     <% hour_later = now + 1.hour %>
     window.timeline.setVisibleChartRange(<%= time_to_javascript_date(hour_ago) %>, <%= time_to_javascript_date(hour_later) %>);
 
-    var range = timeline.getVisibleChartRange();
+    var range = window.timeline.getVisibleChartRange();
+    document.getElementById('range_start').value = dateFormat(range.start);
+    document.getElementById('range_end').value = dateFormat(range.end);
+  }
+
+  function closeUpBlueLine() {
+    var customTime = timeline.getCustomTime().getTime();
+    var hourAgo = new Date(customTime - 3600000);
+    var hourLater = new Date(customTime + 3600000);
+    window.timeline.setVisibleChartRange(hourAgo, hourLater);
+
+    var range = window.timeline.getVisibleChartRange();
     document.getElementById('range_start').value = dateFormat(range.start);
     document.getElementById('range_end').value = dateFormat(range.end);
   }
@@ -18,22 +30,25 @@
 <div class="form-inline">
   <div class="form-group">
     <label for="range_start">Start</label>
-    <input class="form-control" id="range_start" placeholder="Start" readonly="readonly" value="<%= from.strftime('%Y/%m/%d %H:%M:%S')%>">
+    <input class="form-control" id="range_start" placeholder="Start" readonly="readonly" value="<%= from.strftime('%Y/%m/%d %H:%M:%S')%>" style="width:160px;">
   </div>
   <div class="form-group">
     <label for="range_end">End</label>
-    <input class="form-control" id="range_end" placeholder="End" readonly="readonly" value="<%= till.strftime('%Y/%m/%d %H:%M:%S') %>">
+    <input class="form-control" id="range_end" placeholder="End" readonly="readonly" value="<%= till.strftime('%Y/%m/%d %H:%M:%S') %>" style="width:160px;">
   </div>
   <button onclick="setFormFromTill()" class="btn btn-default">Set</button>
   <div class="form-group">
     <label for="search">Highlight</label>
-    <input class="form-control" id="search" placeholder="Keyword" value="">
+    <input class="form-control" id="search" placeholder="Keyword" value="" style="width:120px;">
   </div>
   <% if from <= now and now <= till %>
     <button class="btn btn-default" onclick="closeUpNow()">
       <span class="glyphicon glyphicon-time" aria-hidden="true"></span> Now
     </button>
   <% end %>
+  <button class="btn btn-default" onclick="closeUpBlueLine()">
+    <span class="glyphicon glyphicon-time" aria-hidden="true"></span> Blue
+  </button>
 </div>
 <%= javascript_tag do %>
   $('#search').keyup(function() {
