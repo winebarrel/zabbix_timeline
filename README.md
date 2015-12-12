@@ -15,6 +15,6 @@ bundle exec rails s
 
 Then go to `http://localhost:3000`.
 
-## Screenshot
+## Demo
 
-[![https://gyazo.com/1e7e20debaf57e61ab1d89e98ac494d8](https://i.gyazo.com/1e7e20debaf57e61ab1d89e98ac494d8.png)](https://gyazo.com/1e7e20debaf57e61ab1d89e98ac494d8)
+![](https://raw.githubusercontent.com/winebarrel/zabbix_timeline/master/etc/zabbix_timeline-demo.gif)
