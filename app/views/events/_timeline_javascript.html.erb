@@ -56,7 +56,14 @@
     // Draw our timeline with the created data and options
     timeline.draw(data);
 
-    timeline.setVisibleChartRange(<%= time_to_javascript_date(from) %>, <%= time_to_javascript_date(till) %>);
+    var from = <%= time_to_javascript_date(from) %>;
+    var till = <%= time_to_javascript_date(till) %>;
+
+    timeline.setVisibleChartRange(from, till);
+
+    var customTimeDelta = till.getTime() - from.getTime();
+    var customTime = new Date(from.getTime() + customTimeDelta / 2);
+    timeline.setCustomTime(customTime);
 
     window.timeline = timeline;
   }
